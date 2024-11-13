@@ -6,53 +6,56 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Tabelă 2x2 pentru câmpurile de text -->
+    <!-- Tabelă 2x2 pentru afișarea valorilor -->
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TableRow>
-            <EditText
-                android:id="@+id/field1"
+            <TextView
+                android:id="@+id/field1_secondary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="Field 1"
-                android:inputType="number" />
+                android:text="Field 1" />
 
-            <EditText
-                android:id="@+id/field2"
+            <TextView
+                android:id="@+id/field2_secondary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="Field 2"
-                android:inputType="number" />
+                android:text="Field 2" />
         </TableRow>
 
         <TableRow>
-            <EditText
-                android:id="@+id/field3"
+            <TextView
+                android:id="@+id/field3_secondary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="Field 3"
-                android:inputType="number" />
+                android:text="Field 3" />
 
-            <EditText
-                android:id="@+id/field4"
+            <TextView
+                android:id="@+id/field4_secondary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="Field 4"
-                android:inputType="number" />
+                android:text="Field 4" />
         </TableRow>
     </TableLayout>
 
-    <!-- Butonul "Set" -->
+    <!-- Butoanele Sum și Product -->
     <Button
-        android:id="@+id/set_button"
+        android:id="@+id/sum_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Set" />
+        android:text="Sum" />
+
+    <Button
+        android:id="@+id/product_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Product" />
 </LinearLayout>
