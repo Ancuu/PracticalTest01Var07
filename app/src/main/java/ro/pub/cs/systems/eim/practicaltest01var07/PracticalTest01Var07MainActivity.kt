@@ -1,6 +1,5 @@
 package ro.pub.cs.systems.eim.practicaltest01var07
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -15,15 +14,8 @@ class PracticalTest01Var07MainActivity : AppCompatActivity() {
     private lateinit var field3: EditText
     private lateinit var field4: EditText
     private lateinit var setButton: Button
-
-    private var sum: Int = 0 // Variabilă pentru sumă
-    private var product: Int = 0 // Variabilă pentru produs
-
-    companion object {
-        private const val SECOND_ACTIVITY_REQUEST_CODE = 1
-        private const val SUM_KEY = "sum"
-        private const val PRODUCT_KEY = "product"
-    }
+    private lateinit var startServiceButton: Button
+    private lateinit var stopServiceButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +27,8 @@ class PracticalTest01Var07MainActivity : AppCompatActivity() {
         field3 = findViewById(R.id.field3)
         field4 = findViewById(R.id.field4)
         setButton = findViewById(R.id.set_button)
+        startServiceButton = findViewById(R.id.start_service_button)
+        stopServiceButton = findViewById(R.id.stop_service_button)
 
         // Listener pentru butonul "Set"
         setButton.setOnClickListener {
@@ -50,40 +44,54 @@ class PracticalTest01Var07MainActivity : AppCompatActivity() {
                 // Pornește activitatea secundară și transmite valorile
                 val intent = Intent(this, PracticalTest01Var07SecondaryActivity::class.java)
                 intent.putExtra("values", values.toIntArray())
-                startActivityForResult(intent, SECOND_ACTIVITY_REQUEST_CODE)
+                startActivityForResult(intent, 1)
             } catch (e: NumberFormatException) {
                 // Dacă cel puțin un câmp nu conține numere, afișăm un mesaj de eroare
                 Toast.makeText(this, "Toate câmpurile trebuie să conțină numere!", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        // Pornire serviciu la apăsare pe buton
+        startServiceButton.setOnClickListener {
+            val intent = Intent(this, PracticalTest01Var07Service::class.java)
+            startService(intent)
+        }
+
+        // Oprire serviciu la apăsare pe buton
+        stopServiceButton.setOnClickListener {
+            val intent = Intent(this, PracticalTest01Var07Service::class.java)
+            stopService(intent)
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == SECOND_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            sum = data?.getIntExtra("sum", 0) ?: 0
-            product = data?.getIntExtra("product", 0) ?: 0
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            val sum = data?.getIntExtra("sum", -1)
+            val product = data?.getIntExtra("product", -1)
 
-            // Afișăm rezultatele primite
-            Toast.makeText(this, "Sum: $sum, Product: $product", Toast.LENGTH_SHORT).show()
+            // Verificăm ce rezultat a fost returnat
+            if (sum != null && sum != -1) {
+                Toast.makeText(this, "Sum: $sum", Toast.LENGTH_SHORT).show()
+            }
+            if (product != null && product != -1) {
+                Toast.makeText(this, "Product: $product", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
-    // Salvăm variabilele în cazul distrugerii activității
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putInt(SUM_KEY, sum)
-        outState.putInt(PRODUCT_KEY, product)
+    override fun onStop() {
+        super.onStop()
+        // Oprire serviciu când activitatea devine invizibilă
+        val intent = Intent(this, PracticalTest01Var07Service::class.java)
+        stopService(intent)
     }
 
-    // Restaurăm variabilele la recrearea activității
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        sum = savedInstanceState.getInt(SUM_KEY, 0)
-        product = savedInstanceState.getInt(PRODUCT_KEY, 0)
-
-        // Afișăm din nou rezultatele salvate
-        Toast.makeText(this, "Restored -> Sum: $sum, Product: $product", Toast.LENGTH_SHORT).show()
+    override fun onDestroy() {
+        super.onDestroy()
+        // Oprire definitivă a serviciului când activitatea este distrusă
+        val intent = Intent(this, PracticalTest01Var07Service::class.java)
+        stopService(intent)
     }
 }

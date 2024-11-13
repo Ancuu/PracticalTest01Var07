@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -6,7 +5,7 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Tabelă 2x2 pentru câmpurile de text -->
+    <!-- Tabelă 2x2 pentru câmpuri editabile -->
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -48,11 +47,29 @@
         </TableRow>
     </TableLayout>
 
-    <!-- Butonul "Set" -->
+    <!-- Buton pentru pornirea activității secundare -->
     <Button
         android:id="@+id/set_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
         android:text="Set" />
+
+    <!-- Buton pentru pornirea serviciului -->
+    <Button
+        android:id="@+id/start_service_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:text="Start Service" />
+
+    <!-- Buton pentru oprirea serviciului -->
+    <Button
+        android:id="@+id/stop_service_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Stop Service" />
 </LinearLayout>
